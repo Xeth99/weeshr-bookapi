@@ -2,9 +2,11 @@ import request from "supertest";
 import express from "express";
 import router from "../src/routes/authorRouter";
 
+
+
 const app = express();
 app.use(express.json());
-app.use("/author", router);
+app.use("/users", router);
 
 describe("Author Routes", () => {
   let authorId: string;
@@ -18,36 +20,34 @@ describe("Author Routes", () => {
     };
 
     const response = await request(app)
-      .post("/author/addAuthor")
+      .post("/users/addAuthor")
       .send(newAuthorData);
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("createNewAuthor");
     expect(response.body.createNewAuthor).toHaveProperty("id");
-    authorId = response.body.createNewAuthor.id;
+    //authorId = response.body.createNewAuthor.id;
   });
 
   it("should get all authors", async () => {
-    const response = await request(app).get("/author/allAuthors");
+    const response = await request(app).get("/users/allAuthors");
     expect(response.status).toBe(200);
     // Add more assertions as needed
   });
 
   it("should get a specific author by ID", async () => {
     if (!authorId) {
-      fail("Author ID not set");
+      throw new Error("Author ID not set");
     }
 
-    const response = await request(app).get(
-      `/author/getAuthorById/${authorId}`
-    );
+    const response = await request(app).get(`/users/getAuthorById/${authorId}`);
     expect(response.status).toBe(200);
     // Add more assertions as needed
   });
 
   it("should update an author", async () => {
     if (!authorId) {
-      fail("Author ID not set");
+      throw new Error("Author ID not set");
     }
 
     const updatedAuthorData = {
@@ -55,7 +55,7 @@ describe("Author Routes", () => {
     };
 
     const response = await request(app)
-      .put(`/author/updateAuthor/${authorId}`)
+      .put(`/users/updateAuthor/${authorId}`)
       .send(updatedAuthorData);
 
     expect(response.status).toBe(200);
@@ -63,11 +63,11 @@ describe("Author Routes", () => {
 
   it("should delete an author", async () => {
     if (!authorId) {
-      fail("Author ID not set");
+      throw new Error("Author ID not set");
     }
 
     const response = await request(app).delete(
-      `/author/deleteAuthor/${authorId}`
+      `/users/deleteAuthor/${authorId}`
     );
     expect(response.status).toBe(200);
   });
