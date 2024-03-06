@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import Book from "../model/booksModel";
-import { Op } from "sequelize";
-
+//import { Op } from "sequelize";
 
 // Create a new book
 export const addNewBook = async (req: Request, res: Response) => {
@@ -34,43 +33,14 @@ export const addNewBook = async (req: Request, res: Response) => {
   }
 };
 
-// Get a list of all books
-// export const getAllBooks = async (req: Request, res: Response) => {
-//   const page = parseInt(req.query.page as string) || 1;
-
-//   const limit = parseInt(req.query.limit as string) || 10;
-
-//   const offset = (page - 1) * limit;
-
-//   try {
-//     const getBooks = await Books.findAll({ offset, limit });
-
-//     const totalBookCount = await Books.count();
-
-//     const pages = Math.ceil(totalBookCount / limit);
-
-//     return res.status(200).json({ getBooks, pages, currentPage: page });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       return res.status(500).json({
-//         message: "Server error",
-//         error: error.message,
-//       });
-//     }
-//     res.status(500).json({
-//       message: "Server error",
-//       error,
-//     });
-//   }
-// };
-
+// Get all books
 export const getAllBooks = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const offset = (page - 1) * limit;
 
   const sortBy = req.query.sortBy as string;
-  const sortOrder = req.query.sortOrder === 'desc' ? 'DESC' : 'ASC';
+  const sortOrder = req.query.sortOrder === "desc" ? "DESC" : "ASC";
 
   const filterAuthor = req.query.author as string;
   const filterCategory = req.query.category as string;
@@ -104,7 +74,6 @@ export const getAllBooks = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 // Get details of a specific book
 export const getOneBook = async (req: Request, res: Response) => {

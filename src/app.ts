@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import indexRouter from "./routes/index";
 import authorRouter from "./routes/authorRouter";
-import bookRouter from "./routes/bookRouter";
+import booksRouter from "./routes/booksRouter";
 import categoryRouter from "./routes/categoryRouter";
 import sequelize from "./config/database.config";
 
@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", authorRouter);
-app.use("/books", bookRouter);
+app.use("/books", booksRouter);
 app.use("/categories", categoryRouter);
 
 // catch 404 and forward to error handler
